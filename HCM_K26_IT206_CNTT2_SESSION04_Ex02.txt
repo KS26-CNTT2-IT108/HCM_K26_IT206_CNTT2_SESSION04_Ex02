@@ -1,0 +1,53 @@
+SESSION04
+[Phân tích] So sánh Trade-off các giải pháp ra lệnh cho Kỹ thuật Prompting Nâng cao (Logic & Chuỗi)
+
+Tên lớp: HCM K26 CNTT2
+Môn học: Kỹ năng PROMPTING với AI
+Họ và tên: LƯƠNG THANH THƯ
+
+BƯỚC 1: ĐỀ XUẤT 2 PROMPT MẪU (HAI PHƯƠNG ÁN)
+Giải pháp 1: Prompt Đơn giản, Ngắn gọn
+Phương án này tập trung vào câu lệnh trực diện, ngắn gọn, giao toàn bộ quyền tư duy cho AI mà ít ràng buộc cấu trúc.
+
+Markdown
+Bạn là nhân viên CSKH. Hãy đọc tin nhắn khiếu nại của khách hàng dưới đây, suy luận nguyên nhân và viết câu trả lời phù hợp:
+"Shop giao thiếu hàng rồi, đơn hàng chẳng có mã gì cả nhưng bực mình lắm rồi đấy!"
+Giải pháp 2: Prompt Chi tiết, Ràng buộc cao (Tích hợp Logic & Chuỗi)
+Phương án này áp dụng xích chuỗi prompt tuần tự, bắt buộc kiểm soát lỗi dữ liệu đầu vào (Error Handling), lập luận từng bước (Chain-of-Thought) và định dạng đầu ra nghiêm ngặt.
+
+Markdown
+[SYSTEM ROLE] Bạn là Trưởng bộ phận CSKH tự động. Hãy xử lý tin nhắn khiếu nại qua chuỗi quy trình 3 bước:
+
+### DỮ LIỆU ĐẦU VÀO:
+"Shop giao thiếu hàng rồi, đơn hàng chẳng có mã gì cả nhưng bực mình lắm rồi đấy!"
+
+### QUY TRÌNH XỬ LÝ (BẮT BUỘC TUÂN THỦ):
+1. BƯỚC 1 (XỬ LÝ ĐỨT GÃY): Kiểm tra xem dữ liệu có chứa Mã đơn hàng hoặc Số điện thoại không. 
+   - NẾU THIẾU: Dừng xử lý khiếu nại, ghi nhận trạng thái [LỖI: THIẾU DỮ LIỆU] và yêu cầu khách cung cấp bổ sung.
+   - NẾU ĐỦ: Chuyển sang Bước 2.
+2. BƯỚC 2 (LẬP LUẬN TỪNG BƯỚC - CoT): Phân tích vấn đề, tìm nguyên nhân gốc rễ và đánh giá mức độ khẩn cấp.
+3. BƯỚC 3 (XUẤT BẢN KẾT QUẢ): Trình bày rõ: Trạng thái kiểm tra | Quá trình lập luận | Mức độ khẩn cấp | Mẫu phản hồi gửi khách.
+BƯỚC 2: LẬP BẢNG SO SÁNH TRADE-OFF (ĐÁNH GIÁ ƯU NHƯỢC ĐIỂM)
+
+Tiêu chí so sánh		  Giải pháp 1 (Đơn giản, ngắn gọn)			Giải pháp 2 (Chi tiết, nhiều ràng buộc)
+Độ dễ hiểu & Viết		  Cao (Nhanh chóng, dễ soạn thảo).			Trung bình (Đòi hỏi tư duy cấu trúc logic nhiều tầng).
+Tốn token & Chi phí		  Ít (Sử dụng ít token đầu vào/đầu ra).			Nhiều hơn (Prompt dài, yêu cầu AI trả về báo cáo chi tiết).
+Chặn lỗi biên (Error Handling)	  Thấp / Kém (Dễ bị AI "ảo giác" tự bịa                 Cực tốt (Kiểm soát tuyệt đối,
+                                  thông tin đơn hàng giả định).	                        chặn đứng lỗi khi thiếu dữ liệu đầu vào).
+Tính ổn định kết quả	          Thấp (Dễ trả lời lan man, không đồng nhất).		Cao (Tuân thủ đúng định dạng và logic bắt buộc).
+
+BƯỚC 3: LỰA CHỌN VÀ CHẠY THỬ NGHIỆM THỰC TẾ
+1. Phượng án được chọn: Giải pháp 2 (Chi tiết, có nhiều ràng buộc)
+Lý do chọn: Trong bài toán tự động hóa nghiệp vụ (như CSKH hoặc xử lý dữ liệu), rủi ro lớn nhất là dữ liệu thô bị thiếu hoặc sai lệch (bẫy thiếu mã đơn hàng). Giải pháp 1 quá lỏng lẻo sẽ khiến AI tự bịa thông tin dẫn đến sai sót nghiệp vụ, trong khi Giải pháp 2 ép AI phải tuân thủ quy trình logic chặt chẽ, an toàn tuyệt đối.
+
+2. Kết quả chạy thử nghiệm thực tế (Simulation Result)
+Áp dụng Giải pháp 2 với đầu vào: "Shop giao thiếu hàng rồi, đơn hàng chẳng có mã gì cả nhưng bực mình lắm rồi đấy!"
+Markdown
+1. **Trạng thái kiểm tra:** Lỗi đứt gãy thiếu dữ liệu (Kích hoạt Error Handling ở Bước 1).
+2. **Quá trình lập luận (CoT):** 
+   - Khách phản hồi về việc thiếu hàng và thể hiện thái độ bức xúc.
+   - Kiểm tra các trường dữ liệu định danh: Hoàn toàn không có Mã đơn hàng (`order_id = null`).
+   - Hệ thống từ chối tra cứu mù để tránh nhầm lẫn dữ liệu hoặc vi phạm bảo mật.
+3. **Mức độ khẩn cấp:** Cao.
+4. **Mẫu phản hồi gửi khách hàng:** 
+   "Dạ em rất xin lỗi chị vì trải nghiệm không vui vừa rồi ạ. Để em có thể kiểm tra ngay tình trạng thiếu hàng cho mình, chị vui lòng cung cấp giúp em **Mã đơn hàng** hoặc **Số điện thoại** đặt hàng nhé. Em sẽ lập tức hỗ trợ xử lý ngay cho chị ạ!"
